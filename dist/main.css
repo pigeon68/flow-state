@@ -1,0 +1,358 @@
+@import url(https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Manrope:wght@400;500;600&display=swap);
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body{
+    overflow: hidden;
+    font-family: 'Manrope', sans-serif;
+    color: #2b2215;
+    background: #f6f1e9;
+}
+
+.stage{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+button{
+    font-family: 'Manrope', sans-serif;
+}
+
+.curtain{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 189, 121, 0.15), transparent 35%),
+                radial-gradient(circle at 80% 80%, rgba(132, 111, 79, 0.12), transparent 30%),
+                rgba(246, 241, 233, 0.92);
+    z-index: 30;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.curtain.hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.curtain-card{
+    width: min(440px, 92vw);
+    padding: 30px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(247,241,233,0.96));
+    border: 1px solid rgba(43, 34, 21, 0.08);
+    box-shadow: 0 20px 60px rgba(47, 36, 24, 0.15);
+    display: grid;
+    gap: 16px;
+}
+
+.curtain-card h1{
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #1f160d;
+}
+
+.curtain-card p{
+    font-size: 14px;
+    color: rgba(43, 34, 21, 0.8);
+    line-height: 1.5;
+}
+
+.curtain-actions{
+    display: grid;
+    gap: 12px;
+}
+
+.uploader{
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #d9b07c, #c98c4a);
+    color: #1f160d;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid rgba(43, 34, 21, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    box-shadow: 0 10px 28px rgba(201, 140, 74, 0.25);
+}
+
+.uploader.inline{
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #f3e7d8, #e7d9c8);
+    color: #2b2215;
+    box-shadow: none;
+}
+
+.uploader:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(201, 140, 74, 0.28);
+}
+
+.uploader:active{
+    transform: translateY(1px);
+    box-shadow: 0 8px 18px rgba(201, 140, 74, 0.22);
+}
+
+.uploader input{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.outline-btn,
+.preset-btn,
+.reseed-btn{
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(43, 34, 21, 0.12);
+    background: linear-gradient(135deg, #fffaf3, #f0e6d8);
+    color: #2b2215;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    box-shadow: 0 10px 24px rgba(47, 36, 24, 0.18);
+}
+
+.outline-btn{
+    background: transparent;
+    border-style: dashed;
+    color: #4a3824;
+}
+
+.outline-btn:hover,
+.preset-btn:hover,
+.reseed-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(47, 36, 24, 0.2);
+}
+
+.outline-btn:active,
+.preset-btn:active,
+.reseed-btn:active{
+    transform: translateY(1px);
+    box-shadow: 0 6px 16px rgba(47, 36, 24, 0.18);
+}
+
+/* Keep reset button anchored on hover/active */
+.reseed-btn:hover,
+.reseed-btn:active{
+    transform: translateX(-50%);
+    box-shadow: 0 10px 24px rgba(47, 36, 24, 0.18);
+}
+
+.bubble{
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(43,34,21,0.14);
+    background: linear-gradient(145deg, #e7d9c8, #d9c4ac);
+    color: #2b2215;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 18px 32px rgba(47, 36, 24, 0.2);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    z-index: 20;
+}
+
+.bubble:hover{
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 22px 40px rgba(47, 36, 24, 0.22);
+}
+
+.bubble-menu{
+    position: fixed;
+    right: 26px;
+    bottom: 88px;
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    justify-items: center;
+    border-radius: 14px;
+    background: rgba(255, 252, 247, 0.96);
+    border: 1px solid rgba(43, 34, 21, 0.1);
+    box-shadow: 0 18px 38px rgba(47, 36, 24, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 19;
+    width: 190px;
+}
+
+.bubble-menu.open{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.reseed-btn{
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+}
+.gear-btn{
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(43,34,21,0.14);
+    background: linear-gradient(145deg, #e7d9c8, #d9c4ac);
+    color: #2b2215;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(47, 36, 24, 0.18);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    z-index: 21;
+}
+
+.gear-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 12px 28px rgba(47, 36, 24, 0.22);
+}
+
+.gear-btn:active{
+    transform: scale(0.98);
+    box-shadow: 0 6px 16px rgba(47, 36, 24, 0.16);
+}
+
+.gear-panel{
+    position: fixed;
+    top: 88px;
+    right: 22px;
+    width: 260px;
+    background: rgba(255, 252, 247, 0.98);
+    border: 1px solid rgba(43, 34, 21, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(47, 36, 24, 0.2);
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 20;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.gear-panel.open{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.gear-panel h2{
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f160d;
+    margin-bottom: 16px;
+}
+
+.gear-content{
+    display: grid;
+    gap: 14px;
+}
+
+.dial-label{
+    font-size: 12px;
+    font-weight: 500;
+    color: #4a3824;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.dial{
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #d9b07c, #c98c4a);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.dial::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e7d9c8, #d9c4ac);
+    border: 1px solid rgba(43, 34, 21, 0.2);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(47, 36, 24, 0.18);
+}
+
+.dial::-moz-range-thumb{
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e7d9c8, #d9c4ac);
+    border: 1px solid rgba(43, 34, 21, 0.2);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(47, 36, 24, 0.18);
+}
+
+.dial::-webkit-slider-thumb:hover{
+    box-shadow: 0 6px 14px rgba(47, 36, 24, 0.22);
+}
+
+.dial::-moz-range-thumb:hover{
+    box-shadow: 0 6px 14px rgba(47, 36, 24, 0.22);
+}
+
+.defaults-btn{
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(43, 34, 21, 0.12);
+    background: linear-gradient(135deg, #fffaf3, #f0e6d8);
+    color: #2b2215;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    box-shadow: 0 4px 12px rgba(47, 36, 24, 0.12);
+}
+
+.defaults-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(47, 36, 24, 0.16);
+}
+
+.defaults-btn:active{
+    transform: translateY(1px);
+    box-shadow: 0 3px 8px rgba(47, 36, 24, 0.12);
+}
+
+/*# sourceMappingURL=main.css.map*/
