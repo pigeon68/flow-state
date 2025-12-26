@@ -2,9 +2,31 @@ import './style.css'
 import Core from './Nebula/Core.js'
 import * as THREE from 'three'
 
+// Title screen setup
+const titleScreen = document.querySelector('.title-screen')
+const hideTitle = () => {
+    if(titleScreen) {
+        setTimeout(() => titleScreen.classList.add('hidden'), 800)
+    }
+}
+
 const core = new Core({
     targetElement: document.querySelector('.stage')
 })
+
+// Hide title when curtain (initial overlay) becomes visible
+const observeOverlay = () => {
+    const checkOverlay = setInterval(() => {
+        const overlay = document.querySelector('.curtain')
+        if(overlay && !overlay.classList.contains('hidden')) {
+            hideTitle()
+            clearInterval(checkOverlay)
+        }
+    }, 100)
+    setTimeout(() => clearInterval(checkOverlay), 3000)
+}
+
+observeOverlay()
 
 const getArtwork = () => core?.realm?.artwork
 

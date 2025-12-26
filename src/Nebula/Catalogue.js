@@ -4,7 +4,7 @@ export default [
         data: {},
         items:
         [
-            { name: 'inputTexture', source: '/assets/image1.jpg', type: 'texture' },
+            { name: 'inputTexture', source: './assets/image1.jpg', type: 'texture' },
         ]
     }
 ]
